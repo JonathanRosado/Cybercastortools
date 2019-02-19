@@ -46,7 +46,7 @@
 .navbutton-selected {
   margin: 10px;
   font-size: 14px;
-  color: white;
+  color: rgb(255, 192, 0);
   cursor: pointer;
 }
 
