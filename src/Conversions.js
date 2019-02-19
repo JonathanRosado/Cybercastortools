@@ -91,21 +91,32 @@ const Conversions = class App extends Component {
                 atbashData: textToAtbash(data),
                 debugData: "Conversions were ran successfully!"
             })
-        } else if (type === 'text') {
-
         } else if (type === 'reverse') {
-
+            this.setState({
+                textData: reverseString(data),
+                reverseData: data,
+                binaryData: textToBinary(data),
+                asciiData: textToAscii(data),
+                base64Data: textToBase64(data),
+                octalData: textToOctal(data),
+                hexData: textToHex(data),
+                atbashData: textToAtbash(data),
+                debugData: "Conversions were ran successfully!"
+            })
         } else if (type === 'binary') {
 
-        } else if (type === 'text') {
+        } else if (type === 'octal') {
 
-        } else if (type === 'text') {
+        } else if (type === 'hex') {
 
-        } else if (type === 'text') {
+        } else if (type === 'ascii') {
 
-        } else if (type === 'text') {
+        } else if (type === 'base64') {
 
-        }
+        } else if (type === 'atbash') {
+
+        } 
+
     }
 
     render() {
@@ -177,35 +188,35 @@ const Conversions = class App extends Component {
                         <div className="boxbar">Octal</div>
                         <Form>
                 <TextArea placeholder='Octal format' value={self.state.octalData}
-                          onInput={(event, input) => self.convertAll(input.value, 'text') }/>
+                          onInput={(event, input) => self.convertAll(input.value, 'octal') }/>
                         </Form>
                     </div>
                     <div className="box">
                         <div className="boxbar">Hex</div>
                         <Form>
                 <TextArea placeholder='Hexadecimal' value={self.state.hexData}
-                          onInput={(event, input) => self.convertAll(input.value, 'text') }/>
+                          onInput={(event, input) => self.convertAll(input.value, 'hex') }/>
                         </Form>
                     </div>
                     <div className="box">
                         <div className="boxbar">Ascii</div>
                         <Form>
                 <TextArea placeholder='Numeric ascii representation' value={self.state.asciiData}
-                          onInput={(event, input) => self.convertAll(input.value, 'text') }/>
+                          onInput={(event, input) => self.convertAll(input.value, 'ascii') }/>
                         </Form>
                     </div>
                     <div className="box">
                         <div className="boxbar">Base64</div>
                         <Form>
                 <TextArea placeholder='Base64 representation' value={self.state.base64Data}
-                          onInput={(event, input) => self.convertAll(input.value, 'text') }/>
+                          onInput={(event, input) => self.convertAll(input.value, 'base64') }/>
                         </Form>
                     </div>
                     <div className="box">
                         <div className="boxbar">Atbash</div>
                         <Form>
                 <TextArea placeholder='Atbash representation' value={self.state.atbashData}
-                          onInput={(event, input) => self.convertAll(input.value, 'text') }/>
+                          onInput={(event, input) => self.convertAll(input.value, 'atbash') }/>
                         </Form>
                     </div>
                     <div className="box">
