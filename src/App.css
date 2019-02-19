@@ -33,34 +33,96 @@
 .navbar {
   display: flex;
   justify-content: flex-start;
-  background-color: rgb(2, 0, 196);
+  background-color: rgb(47, 84, 150);
 }
 
 .navbutton {
   margin: 10px;
   font-size: 14px;
+  color: #a8a8a8;
+  cursor: pointer;
+}
+
+.navbutton-selected {
+  margin: 10px;
+  font-size: 14px;
   color: white;
+  cursor: pointer;
 }
 
 .navheader {
   margin: 10px 20px 10px 20px;
-  color: #f2fa42;
+  color: rgb(255, 192, 0);
 }
 
 .boxbar {
   padding: 5px;
-  background-color: #d9dbe6;
+  color: rgb(253, 255, 253);
+  background-color: rgb(47, 84, 150);
 }
 
 .box {
   width: 300px;
   margin: 30px 30px 0 30px;
-  background-color: #d9dbe6;
+  background-color: rgb(47, 84, 150);
 }
 
 .content {
   justify-content: center;
   flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 100px;
+}
+
+.settings-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-box-inner {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  width: 600px;
+  display: flex;
+  flex-direction: row;
+  /*background-color: rgb(233, 233, 233);*/
+}
+
+.settings-box-left {
+  margin-left: 50px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.settings-box-right {
+  margin-left: 50px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.settings-box-items {
+  margin: 3px;
+}
+
+.pw-cracking-input-box {
+  width: 1000px;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  background-color: rgb(47, 84, 150);
+}
+
+.pw-cracking-content {
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   display: flex;
   flex-wrap: wrap;
   margin: 0 100px;
