@@ -447,7 +447,7 @@ const Conversions = class App extends Component {
                 <Message>
                     <Message.Header>Fast Conversions</Message.Header>
                     <p>
-                        We offer the most common converters used in Cyber. To try them out, look for the label that matches your data, and start typing!
+                        We offer the most common converters used in CTF competitions. To try them out, look for the label that matches your data, and input the data.
                     </p>
                     <div>
                         {(()=>{

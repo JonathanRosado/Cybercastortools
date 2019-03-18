@@ -113,7 +113,7 @@ const Conversions = class App extends Component {
         return (
             <div>
                 <Message>
-                    <Message.Header>Password Cracker.</Message.Header>
+                    <Message.Header>Password Cracker</Message.Header>
                     <p>
                         We offer password cracking services with pre-loaded wordlists. With the current selection, the estimated execution is <b>38 minute(s)</b>.
                     </p>

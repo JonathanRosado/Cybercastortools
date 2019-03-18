@@ -4,6 +4,8 @@ import 'semantic-ui-css/semantic.min.css';
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 import Conversions from './Conversions';
 import PasswordCracking from './PasswordCracking';
+import RotateN from './RotateN';
+import hashes from './hashes';
 
 class App extends Component {
   constructor(props) {
@@ -26,7 +28,9 @@ class App extends Component {
               </div>
             </nav>
             <Route path="/" exact component={Conversions} />
-            <Route path="/conversions" exact component={Conversions} />
+            <Route path="/rotate-n/" component={RotateN} />
+            <Route path="/hash-conversions/" component={hashes} />
+            <Route path="/conversions" component={Conversions} />
             <Route path="/password-cracking/" component={PasswordCracking} />
             <Route path="/users/" component={Conversions} />
           </header>
