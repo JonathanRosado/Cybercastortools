@@ -444,7 +444,7 @@ const Conversions = class App extends Component {
         let self = this;
         return (
             <div>
-                <Message>
+                <Message style={{'text-align': 'center'}}>
                     <Message.Header>Fast Conversions</Message.Header>
                     <p>
                         We offer the most common converters used in CTF competitions. To try them out, look for the label that matches your data, and input the data.

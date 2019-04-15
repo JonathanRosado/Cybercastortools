@@ -1,118 +1,55 @@
-import {Form, Checkbox, TextArea, Message, Button, Icon, Table} from "semantic-ui-react";
+import {Form, Checkbox, TextArea, Message, Button, Icon, Table, Loader} from "semantic-ui-react";
 import React, { Component } from 'react';
+import axios from 'axios';
 
 const Conversions = class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            textData: "",
-            reverseData: "",
-            binaryData: "",
-            asciiData: "",
-            showSettings: false,
+            inputData: "",
+            outputData: [],
+            loading: false,
         };
-        this.convertAll = this.convertAll.bind(this);
+        // this
+        this.handleTextInput = this.handleTextInput.bind(this);
+        this.timeout = null;
     }
 
-    convertAll(data, type) {
-        function reverseString(str) {
-            return str.split("").reverse().join("");
-        }
-        function textToBinary(text) {
-            let output = "";
-            for (let i = 0; i < text.length; i++) {
-                output += text[i].charCodeAt(0).toString(2) + " ";
-            }
-            return output;
-        }
-        function textToAscii(str) {
-            let output = "";
-            for (let i = 0; i < str.length; i++) {
-                output += str.charCodeAt(i);
-                if (i !== str.length - 1)
-                    output += " ";
-            }
-            return output
-        }
-        function textToBase64(str) {
-            return window.btoa(str);
-        }
-        function textToOctal(str) {
-            let asciiValues = textToAscii(str).split(" ");
-            let output = "";
-            for (let i = 0; i < asciiValues.length; i++) {
-                output += parseInt(asciiValues[i]).toString(8);
-                if (i !== str.length - 1)
-                    output += " ";
-            }
-            return output;
-        }
-        function textToHex(str) {
-            let asciiValues = textToAscii(str).split(" ");
-            let output = "";
-            for (let i = 0; i < asciiValues.length; i++) {
-                output += parseInt(asciiValues[i]).toString(16);
-                if (i !== str.length - 1)
-                    output += " ";
-            }
-            return output;
-        }
-        function textToAtbash(str) {
-            let getKey = () => {
-                let out = {};
-                let forward = "abcdefghijklmnopqrstuvwxyz0123456789";
-                let backward = "zyxwvutsrqponmlkjihgfedcba0123456789";
+    triggerPasswordCrackerService(hashes) {
+        axios({
+            method: 'post',
+            url: 'http://localhost:8080/api/',
+            data: hashes.split("\n"),
+            headers: {accept: 'application/json'}
+        }).then(res => {
+            this.setState({loading: false, outputData: res.data});
+        })
+    }
 
-                for (let x=0; x<forward.length; x++) {
-                    out[forward.charAt(x)] = backward.charAt(x);
-                }
-                return out;
-            };
+    handleTextInput(text) {
+        this.setState({'inputData' : text, loading: true});
 
-            const key = getKey();
-            str = str.toLowerCase().replace(/[^a-z0-9]/, "");
-            str = [...str].map((char) => key[char]).join('');
-            for (let x=5,i=0; x<str.length; x=x+5) {
-                str = str.slice(0, x+i) + " " + str.slice(x+i);
-                i++;
-            }
-            return str.trim();
+        // If timer is set, we clear it to avoid multiple calls
+        if (this.timeout !== null) {
+            clearTimeout(this.timeout);
+            this.timeout = null;
         }
 
-        if (type === 'text') {
-            this.setState({
-                textData: data,
-                reverseData: reverseString(data),
-                binaryData: textToBinary(data),
-                asciiData: textToAscii(data),
-                base64Data: textToBase64(data),
-                octalData: textToOctal(data),
-                hexData: textToHex(data),
-                atbashData: textToAtbash(data),
-                debugData: "Conversions were ran successfully!"
-            })
-        } else if (type === 'text') {
+        // Time until password cracker trigger is sent
+        let timer = 2000;
 
-        } else if (type === 'reverse') {
-
-        } else if (type === 'binary') {
-
-        } else if (type === 'text') {
-
-        } else if (type === 'text') {
-
-        } else if (type === 'text') {
-
-        } else if (type === 'text') {
-
-        }
+        // We are triggering the password cracker once we are sure the user is done typing
+        // We assume that the user is done typing if this method remains uncalled for X consecutive seconds
+        this.timeout = setTimeout((arg) => {
+            this.triggerPasswordCrackerService(text)
+        }, timer);
     }
 
     render() {
         let self = this;
         return (
             <div>
-                <Message>
+                <Message style={{'text-align': 'center'}}>
                     <Message.Header>Password Cracker</Message.Header>
                     <p>
                         We offer password cracking services with pre-loaded wordlists. With the current selection, the estimated execution is <b>38 minute(s)</b>.
@@ -154,59 +91,52 @@ const Conversions = class App extends Component {
                         })()}
                     </div>
                 </Message>
+
                 <div className="pw-cracking-content">
+                    {/*Here's the password cracking input box*/}
                     <div className="pw-cracking-input-box">
                         <div className="boxbar">Enter hashes <div style={{"font-family": "serif", "color": "darkkhaki", "font-size": "smaller"}}>(supports: LM, NTLM, md2, md4, md5, md5(md5_hex), md5-half, sha1, sha224, sha256, sha384, sha512, ripeMD160, whirlpool, MySQL 4.1)</div></div>
                         <Form>
-                    <TextArea placeholder='Basic ascii text' value={self.state.textData}
-                          onInput={(event, input) => self.convertAll(input.value, 'text') }/>
+                            <TextArea placeholder='Basic ascii text' value={self.state.inputData}
+                                    onInput={(event, input) => self.handleTextInput(input.value)}/>
                         </Form>
                     </div>
+                    {/*Here's the table*/}
                     <Table celled striped>
                         <Table.Header>
                             <Table.Row>
-                                <Table.HeaderCell colSpan='3'>Results</Table.HeaderCell>
+                                <Table.HeaderCell colSpan='3'>Results <Loader active={self.state.loading} size={'tiny'} inline={true} /></Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
-
                         <Table.Body>
                             <Table.Row>
                                 <Table.Cell collapsing>
-                                    <Icon name='file outline' /> JasmineLeak2012.txt
+                                    <Icon name='file outline' /> Wordlist
                                 </Table.Cell>
-                                <Table.Cell>SecrePasswordTest1</Table.Cell>
+                                <Table.Cell textAlign='center'>Hash Value</Table.Cell>
                                 <Table.Cell collapsing textAlign='right'>
-                                    3 minutes
+                                    Plaintext Password
                                 </Table.Cell>
                             </Table.Row>
-                            <Table.Row>
-                                <Table.Cell>
-                                    <Icon name='file outline' /> DCode.txt
-                                </Table.Cell>
-                                <Table.Cell>SecrePasswordTest2</Table.Cell>
-                                <Table.Cell textAlign='right'>7 minutes</Table.Cell>
-                            </Table.Row>
-                            <Table.Row>
-                                <Table.Cell>
-                                    <Icon name='file outline' /> RockYou.txt
-                                </Table.Cell>
-                                <Table.Cell>SecrePasswordTest3</Table.Cell>
-                                <Table.Cell textAlign='right'>9 minutes</Table.Cell>
-                            </Table.Row>
-                            <Table.Row>
-                                <Table.Cell>
-                                    <Icon name='file outline' /> RockYou.txt
-                                </Table.Cell>
-                                <Table.Cell>SecrePasswordTest4</Table.Cell>
-                                <Table.Cell textAlign='right'>2 minutes</Table.Cell>
-                            </Table.Row>
-                            <Table.Row>
-                                <Table.Cell>
-                                    <Icon name='file outline' /> RockYou.txt
-                                </Table.Cell>
-                                <Table.Cell>SecrePasswordTest5</Table.Cell>
-                                <Table.Cell textAlign='right'>5 minutes</Table.Cell>
-                            </Table.Row>
+                            {(() => {
+                                let tableRows = [];
+                                for (let i = 0; i < self.state.outputData.length; i++) {
+                                    if (self.state.outputData[i] === '')
+                                        continue;
+                                    tableRows.push(
+                                        <Table.Row>
+                                            <Table.Cell collapsing>
+                                                <Icon name='file outline' /> rockyou.txt
+                                            </Table.Cell>
+                                            <Table.Cell>{self.state.outputData[i].split(':')[0]}</Table.Cell>
+                                            <Table.Cell collapsing textAlign='right'>
+                                                {self.state.outputData[i].split(':')[1]}
+                                            </Table.Cell>
+                                        </Table.Row>
+                                    )
+                                }
+                                return tableRows;
+                            })()}
                         </Table.Body>
                     </Table>
                 </div>
