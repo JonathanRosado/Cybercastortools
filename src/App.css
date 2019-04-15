@@ -127,3 +127,15 @@
   flex-wrap: wrap;
   margin: 0 100px;
 }
+
+#root > div > header > div {
+  background: #2E4EA1
+}
+
+#root > div > header > div > h1 {
+  color: white;
+}
+
+#root > div > header > div > button:nth-child(3) > span.MuiIconButton-label-61 > span > svg > path {
+  color: #d8d8d8;
+}
